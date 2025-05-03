@@ -1,0 +1,21 @@
+from scapy.all import sniff, wrpcap
+
+general_packets = []
+tcp_packets = []
+
+def capture_general():
+    print("\nCapturing 5 general packets...")
+    packets = sniff(count=5)
+    general_packets.extend(packets)
+    wrpcap("general_packets.pcap", general_packets)
+    print("Saved to general_packets.pcap")
+
+def capture_tcp():
+    print("\nCapturing 5 TCP packets...")
+    packets = sniff(filter="tcp", count=5)
+    tcp_packets.extend(packets)
+    wrpcap("tcp_packets.pcap", tcp_packets)
+    print("Saved to tcp_packets.pcap")
+
+capture_general()
+capture_tcp()
